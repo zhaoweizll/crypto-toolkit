@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoToolkit 功能测试页面</title>
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      min-height: 100vh;
+    }
+    .test-header {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .test-notice {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+      padding: 15px;
+      margin: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="test-header">
+      <h1>🧪 CryptoToolkit 功能测试页面</h1>
+      <p>在加载到Chrome之前测试所有功能</p>
+    </div>
+
+    <div class="test-notice">
+      <strong>📋 测试说明：</strong><br>
+      本页面用于测试扩展的所有功能是否正常工作。<strong>界面抖动问题已彻底解决！</strong><br>
+      请依次测试以下功能：<br>
+      ✅ AES-GCM密钥生成 <br>
+      ✅ AES-GCM加密解密 <br>
+      ✅ RSA密钥对生成 <br>
+      ✅ RSA加密解密 <br>
+      🆕 RSA数字签名 (支持两种算法)<br>
+      🆕 RSA签名验证 (RSA-PSS 和 SHA256withRSA)<br>
+      ✅ 复制功能测试 <br>
+      ✅ 界面稳定性（完全无抖动）<br>
+      ✅ 更宽敞的界面布局<br>
+      ✅ 底部状态栏消息提示<br>
+      ✅ 移除所有动画效果防抖动
+    </div>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="aes">AES-GCM 测试</button>
+      <button class="tab-button" data-tab="rsa">RSA 测试</button>
+    </div>
+
+    <!-- AES-GCM 标签页 -->
+    <div id="aes" class="tab-content active">
+      <div class="section">
+        <h3>AES-GCM 加解密测试</h3>
+        
+        <div class="input-group">
+          <label for="aes-key">密钥:</label>
+          <div class="key-input">
+            <input type="text" id="aes-key" placeholder="点击生成测试密钥">
+            <button id="generate-aes-key" class="btn-small">生成测试密钥</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-text">测试文本:</label>
+          <textarea id="aes-text" rows="4" placeholder="输入测试文本，例如：Hello CryptoToolkit!">Hello CryptoToolkit! 这是一个测试消息。🔐</textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-iv">IV (自动生成):</label>
+          <input type="text" id="aes-iv" placeholder="自动生成，无需手动输入">
+        </div>
+
+        <div class="button-group">
+          <button id="aes-encrypt" class="btn-primary">🔒 测试加密</button>
+          <button id="aes-decrypt" class="btn-secondary">🔓 测试解密</button>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-result">加密/解密结果:</label>
+          <textarea id="aes-result" rows="4" readonly placeholder="加密或解密结果将显示在这里"></textarea>
+          <button id="copy-aes-result" class="btn-copy">复制结果</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSA 标签页 -->
+    <div id="rsa" class="tab-content">
+      <div class="section">
+        <h3>RSA 加解密测试</h3>
+
+        <div class="input-group">
+          <label for="rsa-key-size">测试密钥长度:</label>
+          <select id="rsa-key-size">
+            <option value="2048" selected>2048 位 (推荐测试)</option>
+            <option value="3072">3072 位</option>
+            <option value="4096">4096 位</option>
+          </select>
+          <button id="generate-rsa-key" class="btn-small">生成测试密钥对</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-public-key">公钥:</label>
+          <textarea id="rsa-public-key" rows="6" placeholder="点击生成测试密钥对"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-private-key">私钥:</label>
+          <textarea id="rsa-private-key" rows="6" placeholder="点击生成测试密钥对"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-text">测试文本 (注意长度限制):</label>
+          <textarea id="rsa-text" rows="4" placeholder="输入较短的测试文本">RSA测试消息</textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="rsa-encrypt" class="btn-primary">🔒 测试加密</button>
+          <button id="rsa-decrypt" class="btn-secondary">🔓 测试解密</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-result">加密/解密结果:</label>
+          <textarea id="rsa-result" rows="4" readonly placeholder="加密或解密结果将显示在这里"></textarea>
+          <button id="copy-rsa-result" class="btn-copy">复制结果</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>✅ 测试通过后，即可将扩展加载到Chrome浏览器中使用</p>
+      <p>📝 测试完成后可删除本文件</p>
+    </footer>
+  </div>
+
+  <script src="crypto.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

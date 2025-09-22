@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "CryptoToolkit - 加密工具箱",
+  "version": "1.0",
+  "description": "专业Chrome加密工具箱：AES对称加密、RSA非对称加密、数字签名验证、哈希算法、密码生成器等完整功能",
+  "permissions": [
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "加密工具箱",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}

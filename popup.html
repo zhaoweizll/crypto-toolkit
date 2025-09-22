@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加密工具箱</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔐 加密工具箱</h1>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="aes" title="Alt+1">AES-GCM</button>
+      <button class="tab-button" data-tab="rsa" title="Alt+2">RSA</button>
+      <button class="tab-button" data-tab="hash" title="Alt+3">哈希算法</button>
+      <button class="tab-button" data-tab="tools" title="Alt+4">实用工具</button>
+    </div>
+
+    <!-- AES-GCM 标签页 -->
+    <div id="aes" class="tab-content active">
+      <div class="section">
+        <h3>AES-GCM 加解密</h3>
+        
+        <div class="input-group">
+          <label for="aes-key">密钥:</label>
+          <div class="key-input">
+            <input type="text" id="aes-key" placeholder="输入32字节的hex密钥或点击生成">
+            <button id="generate-aes-key" class="btn-small">生成</button>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-text">明文/密文:</label>
+          <textarea id="aes-text" rows="4" placeholder="输入要加密或解密的文本"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-iv">IV (可选，自动生成):</label>
+          <input type="text" id="aes-iv" placeholder="12字节的hex IV，留空自动生成">
+        </div>
+
+        <div class="button-group">
+          <button id="aes-encrypt" class="btn-primary">🔒 加密</button>
+          <button id="aes-decrypt" class="btn-secondary">🔓 解密</button>
+        </div>
+
+        <div class="input-group">
+          <label for="aes-result">结果:</label>
+          <textarea id="aes-result" rows="4" readonly placeholder="加密/解密结果将显示在这里"></textarea>
+          <button id="copy-aes-result" class="btn-copy">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSA 标签页 -->
+    <div id="rsa" class="tab-content">
+      <div class="section">
+        <h3>RSA 加解密</h3>
+
+        <div class="input-group">
+          <label for="rsa-key-size">密钥长度:</label>
+          <select id="rsa-key-size">
+            <option value="2048">2048 位</option>
+            <option value="3072">3072 位</option>
+            <option value="4096">4096 位</option>
+          </select>
+          <button id="generate-rsa-key" class="btn-small">生成密钥对</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-public-key">公钥:</label>
+          <textarea id="rsa-public-key" rows="6" placeholder="粘贴或生成RSA公钥"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-private-key">私钥:</label>
+          <textarea id="rsa-private-key" rows="6" placeholder="粘贴或生成RSA私钥"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-text">明文/密文:</label>
+          <textarea id="rsa-text" rows="4" placeholder="输入要加密或解密的文本"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="rsa-encrypt" class="btn-primary">🔒 加密</button>
+          <button id="rsa-decrypt" class="btn-secondary">🔓 解密</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-result">结果:</label>
+          <textarea id="rsa-result" rows="4" readonly placeholder="加密/解密结果将显示在这里"></textarea>
+          <button id="copy-rsa-result" class="btn-copy">复制</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>RSA 数字签名</h3>
+
+        <div class="input-group">
+          <label for="rsa-signature-algorithm">签名算法:</label>
+          <select id="rsa-signature-algorithm">
+            <option value="RSA-PSS">RSA-PSS (推荐，更安全)</option>
+            <option value="RSASSA-PKCS1-v1_5">SHA256withRSA (传统兼容)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-sign-message">消息:</label>
+          <textarea id="rsa-sign-message" rows="4" placeholder="输入要签名或验证的消息"></textarea>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-sign-private-key">私钥 (用于签名):</label>
+          <textarea id="rsa-sign-private-key" rows="4" placeholder="粘贴RSA私钥用于数字签名"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="rsa-sign" class="btn-primary">✍️ 数字签名</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-signature">签名结果:</label>
+          <textarea id="rsa-signature" rows="3" placeholder="数字签名将显示在这里"></textarea>
+          <button id="copy-rsa-signature" class="btn-copy">复制</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-verify-public-key">公钥 (用于验证):</label>
+          <textarea id="rsa-verify-public-key" rows="4" placeholder="粘贴RSA公钥用于验证签名"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="rsa-verify" class="btn-secondary">✅ 验证签名</button>
+        </div>
+
+        <div class="input-group">
+          <label for="rsa-verify-result">验证结果:</label>
+          <div id="rsa-verify-result" class="verify-result" placeholder="签名验证结果将显示在这里">
+            <span class="verify-placeholder">签名验证结果将显示在这里</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 哈希算法标签页 -->
+    <div id="hash" class="tab-content">
+      <div class="section">
+        <h3>哈希算法</h3>
+
+        <div class="input-group">
+          <label for="hash-algorithm">算法选择:</label>
+          <select id="hash-algorithm">
+            <option value="SHA-256">SHA-256 (推荐)</option>
+            <option value="SHA-1">SHA-1</option>
+            <option value="SHA-384">SHA-384</option>
+            <option value="SHA-512">SHA-512</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="hash-text">输入文本:</label>
+          <textarea id="hash-text" rows="4" placeholder="输入要计算哈希的文本"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="calculate-hash" class="btn-primary">🔗 计算哈希</button>
+          <button id="clear-hash" class="btn-secondary">🧹 清空内容</button>
+        </div>
+
+        <div class="input-group">
+          <label for="hash-result">哈希结果:</label>
+          <textarea id="hash-result" rows="3" readonly placeholder="哈希结果将显示在这里"></textarea>
+          <button id="copy-hash-result" class="btn-copy">复制</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 实用工具标签页 -->
+    <div id="tools" class="tab-content">
+      <div class="section">
+        <h3>密码生成器</h3>
+
+        <div class="input-group">
+          <label for="password-length">密码长度:</label>
+          <input type="number" id="password-length" min="8" max="64" value="16">
+        </div>
+
+        <div class="input-group">
+          <label>
+            <input type="checkbox" id="include-special" checked> 包含特殊字符
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button id="generate-password" class="btn-primary">🎲 生成密码</button>
+          <button id="check-password-strength" class="btn-secondary">🛡️ 检查强度</button>
+        </div>
+
+        <div class="input-group">
+          <label for="generated-password">生成的密码:</label>
+          <input type="text" id="generated-password" readonly placeholder="生成的密码将显示在这里">
+          <button id="copy-password" class="btn-copy">复制</button>
+        </div>
+
+        <div class="input-group">
+          <label for="password-to-check">检查密码强度:</label>
+          <input type="password" id="password-to-check" placeholder="输入要检查的密码">
+        </div>
+
+        <div id="password-strength" class="password-strength"></div>
+      </div>
+
+      <div class="section">
+        <h3>数据清理</h3>
+        <p class="security-notice">🔒 安全清理敏感数据，防止内存残留</p>
+        
+        <div class="button-group">
+          <button id="clear-all-fields" class="btn-secondary">🧹 清理所有字段</button>
+          <button id="clear-keys-only" class="btn-secondary">🔑 仅清理密钥</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>安全提示: 请勿在不安全的环境中使用敏感数据</p>
+      <p class="shortcuts-tip">💡 快捷键: Alt+1~4 切换标签页 | Ctrl+Enter 执行操作</p>
+    </footer>
+  </div>
+
+  <script src="crypto.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
