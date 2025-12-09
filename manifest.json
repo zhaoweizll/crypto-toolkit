@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CryptoToolkit - 加密工具箱",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "专业Chrome加密工具箱：AES对称加密、RSA非对称加密、数字签名验证、哈希算法、密码生成器等完整功能",
   "permissions": [
     "activeTab"

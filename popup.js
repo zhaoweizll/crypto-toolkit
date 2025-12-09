@@ -1,6 +1,6 @@
 /**
  * 加密工具箱 - 用户界面交互逻辑
- * @version 1.0
+ * @version 1.0.1
  */
 
 class PopupController {
